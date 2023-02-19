@@ -1,0 +1,41 @@
+<frontmatter xml:id="frontmatter">
+    <titlepage>
+        <author>
+            <personname>Samuel
+                Ling</personname>
+            <department>Professor Emeritus, Dept of Physcs</department>
+            <institution>Truman State
+                University</institution>
+        </author>
+        <date>
+            <today />
+        </date>
+    </titlepage>
+    <preface>
+        <p>
+            This is a labor of love.
+        </p>
+        
+    </preface>
+
+    <colophon>
+
+        <!-- <website>
+          <name>
+            <c>example.org</c>
+          </name>
+          <address>https://example.org</address>
+        </website> -->
+
+        <copyright>
+            <year>2020<ndash /> 2023</year>
+            <holder>Samuel
+                Ling</holder>
+            <shortlicense> This work is licensed under the Creative Commons Attribution-ShareAlike
+                4.0 International License. To view a copy of this license, visit <url
+                    href="http://creativecommons.org/licenses/by-sa/4.0/"
+                    visual="creativecommons.org/licenses/by-sa/4.0"> CreativeCommons.org</url>
+            </shortlicense>
+        </copyright>
+    </colophon>
+</frontmatter>
