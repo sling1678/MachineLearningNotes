@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter xml:id="chapter-supervised-setup" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <title>Supervised Learning</title>
+    <introduction><title>Preliminaries</title>
+        <p> In supervised learning, we are given a collection of data points on a pair of random variables,
+            which we will denote as <me>
+                \mathcal{D} = \{(x^{(1)}, y^{(1)}), (x^{(2)}, y^{(2)}), \cdots, (x^{(N)}, y^{(N)}) \}.
+            </me>
+            The superscripts denote independent observations. The dataset <m>\mathcal{D}</m> has <m>N</m>
+            datapoints or samples or observations. 
+        </p>
+        <p> 
+            Goal is to find a "best fit" <m>y = f(x)</m> to
+            the data that can be used to predict <m>y</m> for some new <m>x</m>. 
+        </p>
+
+        <p> 
+            The quantities <m>x</m>
+            are called features and <m>y</m> is called target or label. <m>x</m> can be a single variable or a collection of variables. The collection <m>x</m> may be one-dimensional vector, e.g., columns of a excel sheet, two-dimensional tensor, e.g., gray-scale image, three-dimensional tensor, e.g., two or more color channels of colored image, etc. The target <m>y</m> can also be multi-dimensional, but in most cases we will study, <m>y</m> will be a scalar random variable.
+        </p>
+        <p>
+            The task of supervised learning is given different names depending upon whether <m>y</m> is continuous or discrete. If <m>y</m> is a continuous variable, the task is called regression, and if <m>y</m> is discrete, such as categories, the task is called classification.
+        </p>
+    </introduction>
+
+    <section xml:id="sec-least-squares"><title>Prediction by Least Squares</title>
+        <p>
+            The method assumes that <m>y</m> depends linearly on <m>x</m> with an offset. Suppose we have <m>p</m> features, then this assumption means the following relation. 
+            <men xml:id="eq-least-sq-y-linear-in-x">
+                y = w_0 + x_1 w_1 + x_2 w_2 + \cdots + x_p w_p,
+            </men>
+            where <m>w_0, w_1, w_2, \cdots, w_p</m> are unknown parameters. This equation is more compactly written if we introduce a new vector <m>\bar{x}</m> that has its first element equal to <m>1</m> and the rest same as <m>x</m>. We will write vector as a column matrix and write a row matrix trasposed for saving space in writing. 
+            <men>
+                \bar x =
+                \begin{pmatrix}
+                1 \\
+                x_1 \\
+                \vdots \\
+                x_p
+                \end{pmatrix}
+                \equiv 
+                [1\ x_1\ x_2\ \cdots\ x_p]^T.
+            </men> With <m>w</m> as a vector also
+            <men>
+                w = [w_0\ w_1\ w_2\ \cdots\ w_p]^T
+            </men> 
+            Eq. <xref ref="eq-least-sq-y-linear-in-x" /> takes the simple form <men>
+                y = \bar x^T w = w^T \bar x
+            </men> The values of parameters <m>w</m> are estimated from the given data by an optimization principle that squared error between predicted values of <m>y</m> and observed values of <m>y</m> at the optimal values of the paraameters be minimum. That is error as a function of parameters be minimum at the optimal values of parameters. We square the difference so that error from each datapoint add to the errors in other datapoints. 
+            <men xml:id="eq-error-as-sum">
+                \mathcal{E}(w) = \sum_{i=1}^N \left( y^{(i)} - \bar x^{(i)T} \cdot w \right)
+            </men>
+            It turns out that we can find analytic solution for the optimal values of parameters in this case.
+        </p>
+
+        <subsection><title>Analytic Solution</title>
+
+
+        <p> Taking derivative with respect to <m>w</m> and setting the result to
+            zero will result in the answer. However, instead of dealing with sums, there is even more compact notation in which taking derivative becomes trivial. For <m>w</m> we use the same vector notation as above, but to deal with <m>N</m> datapoints we introduce <m>N\times(p+1)</m> matrix for <m>x's</m>, where each <m>x</m> data point is placed along rows (i.e., <m>x's</m> are row vectors already in this <m>X</m>, and <m>N\times 1</m> column matrix for <m>y's</m>. 
+            <men>
+                X =
+                    \begin{pmatrix}
+                    1 \amp x_1^{(1)} \amp x_2^{(1)} \amp \cdots \amp x_p^{(1)} \\
+                    1 \amp x_1^{(2)} \amp x_2^{(2)} \amp \cdots \amp x_p^{(2)} \\
+                    \vdots \amp \vdots \amp \vdots \amp \ddots \amp \vdots \\
+                    1 \amp x_1^{(N)} \amp x_2^{(N)} \amp \cdots \amp x_p^{(N)}
+                    \end{pmatrix}, \ \ \
+                y =
+                    \begin{pmatrix}
+                    y^{(1)} \\
+                    y^{(2)} \\
+                    \vdots \\
+                    y^{(N)}
+                    \end{pmatrix},\ \ \
+                w =
+                    \begin{pmatrix}
+                    w_0 \\
+                    w_1 \\
+                    \vdots \\
+                    w_p
+                    \end{pmatrix}
+
+            </men>
+            Using these matrices, squared error is very compactly written as <men xml:id="eq-linear-reg-error-matrix-form">
+                \mathcal{E}(w) = \left( y - X w\right)^T \left( y - X w\right).
+            </men>
+            Expanding the right side we get 
+            <men>
+                \mathcal{E}(w) = y^T y - y^T X w -w^TX^Ty + w^T X^T X w.
+            </men>
+            Taking matrix derivative with respect to <m>w</m> gives 
+            <men>
+                \frac{\partial \mathcal{E}}{\partial w} = 0 - X^T y - X^T y + 2 X^TX w.
+            </men>
+            Set this to zero and denote the solution by adding a hat on the symbol we get a linear equation in <m>\hat w</m>. This equation is called the normal equation. 
+            <men xml:id="eq-linear-reg-normal-eqn">
+                X^TX \hat w = X^T y.
+            </men> 
+            If <m>X^T X</m> is invertible, which will be the case of the rank of <m>X^T X = p+1</m>. In that case, we will get 
+            <men xml:id="eq-linear-reg-optimal-params">
+                \hat w = \left( X^T X \right)^{-1}X^T y.
+            </men> 
+            To predict <m>y</m> for a new <m>x</m>, say <m>x=x_*</m> we will just use Eq. <xref ref="eq-least-sq-y-linear-in-x" />, where we replace <m>w</m> by <m>\hat w</m>. 
+            <men>
+                \text{Predict:}\ \ \ y_* = x_*^T \hat w.
+            </men> 
+            This solution  goes by the name Linear Regression. </p>
+        </subsection>
+        <subsection><title>Iterative Solution</title>
+            <p> Although the optimazation of squared error function for linear regression in Eq. <xref
+                    ref="eq-linear-reg-error-matrix-form" /> has a closed-form solution as given in
+            Eq. <xref
+                    ref="eq-linear-reg-optimal-params" />, in most other methods, we will not be
+            able to find such closed form solution. In those cases, an iterative solution is
+            available. In the case of Eq. <xref ref="eq-linear-reg-error-matrix-form" />, there is only one minimum, which is the global minimum. You can see this by noting that <m>\mathcal{E}(w)</m> is a quadratic function of <m>w</m>, which is a concave up parabola with minimum at <m>w=\hat w</m>. 
+            </p>
+            <p> In the <m>w</m>-space, we can start from any arbitrary point, say <m>w = w^*</m> and slowly
+            move in the direction opposite to the gradient <m>\partial \mathcal{E}/\partial w</m>. In
+            Eq. <xref ref="eq-linear-reg-error-matrix-form" />, the error is net error from all <m>N</m> datapoints in the dataset. In this case, each step in the update of <m>w</m> values uses the entire batch of data. Therefore, we call this algorithm, batch gradient descent. If we update using only one datapoint at a time, that will be noisy updata and it is called stochastic gradient descent. Most often, we use a small part, say 64 datapoints, when we may have 10000 datapoints, in each step, then we call it a mini-batch gradient descent. Here is a pseudocode. We repeat the process till convergence.
+            </p>
+                     
+            <c><title>Batch Gradient Descent</title>
+                0. set tolerance for convergence, e.g., tolerance = 1e^-6
+                1. randomly initialize w
+                2. until convergence do:
+                3.      compute gradient, dE = - 2X^T y + 2 X^TX w
+                4.      dw = - eta * dE 
+                5.      update w, w := w + dw
+                6.      test for convergence, is dw/w less than tolerance?
+                7. save w
+            </c>
+            <p> 
+                In the above gradient dE is multiplied by a factor eta, which is called the learning rate. If eta is too large, the updates will occur too rapidly and may miss the minimum or oscillate wildly. If too small, the updates may cause too slow a convergence. Typically, you start with <m>\text{eta} = 1e^{-3}</m> and experiment with the values to find whatever works best for the problem at hand. 
+            </p>
+            <p>
+                The iterative solution is very general and used to solve optimization problems for classification as well as regression problems. We will see that the error function for classification problems usually do not lend themselves for an analytic solution. Therefore, you will have only the iterative solution.
+            </p>
+
+
+        </subsection>
+    </section>
+
+
+
+</chapter>

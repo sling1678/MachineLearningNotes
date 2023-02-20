@@ -22,8 +22,12 @@
     <!-- <subtitle>ML algirithms made simple</subtitle> -->
     <xi:include href="./frontmatter.xml" /> <!-- ISBN, website, other metadata -->
 
-
-    <chapter xml:id="chapter-title">
+    <part xml:id="part-supervised-learning">
+      <title>Supervised Learning</title>
+      <xi:include href="supervised/supervised-setup.xml" />                    <!-- Set Theory  -->
+      <!-- <xi:include href="./integers.xml" />     -->
+    </part>
+    <!-- <chapter xml:id="chapter-title">
       <title>Chapter
         title</title>
 
@@ -32,7 +36,7 @@
         <p>Hello</p>
       </section>
 
-    </chapter>
+    </chapter> -->
 
     <backmatter xml:id="backmatter">
       <title>Backmatter</title>
